@@ -1,5 +1,6 @@
 package id.acthive.dao;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.micronaut.core.annotation.Introspected;
 import java.time.LocalDateTime;
 import java.util.UUID;

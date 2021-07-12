@@ -31,18 +31,20 @@ public class AuthServiceImpl implements AuthService {
     var personDaoOptional = personRepository.findByEmail(request.getUsername());
     if (personDaoOptional.isPresent() && personDaoOptional.get().getPassword()
         .equals(request.getPassword())) {
-      PersonDao personDao = personDaoOptional.get();
-      var credentials = new UsernamePasswordCredentials(personDao.getEmail(),
-          personDao.getPassword());
-      var token = client.login(credentials);
-      personDao.setToken(token.getAccessToken());
-      personDao.setTokenExpiresIn(LocalDateTime.now().plusDays(7));
-      PersonDao update = personRepository.update(personDao);
-
+      var personDao = personDaoOptional.get();
+      if (personDao.getTokenExpiresIn() != null && personDao.getTokenExpiresIn()
+          .isBefore(LocalDateTime.now())) {
+        var credentials = new UsernamePasswordCredentials(personDao.getEmail(),
+            personDao.getPassword());
+        var token = client.login(credentials);
+        personDao.setToken(token.getAccessToken());
+        personDao.setTokenExpiresIn(LocalDateTime.now().plusDays(7));
+        personDao = personRepository.update(personDao);
+      }
       return LoginResponse.builder()
-          .username(update.getEmail())
-          .token(update.getToken())
-          .tokenExpiresIn(update.getTokenExpiresIn())
+          .username(personDao.getEmail())
+          .token(personDao.getToken())
+          .tokenExpiresIn(personDao.getTokenExpiresIn())
           .build();
     }
     return null;
