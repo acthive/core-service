@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: id.acthive
+testFramework: junit
+sourceLanguage: java
+buildTool: maven
+features: [annotation-api, app-name, data, data-jpa, graalvm, hibernate-validator, http-client, java, java-application, jax-rs, jdbc-hikari, jib, junit, logback, lombok, maven, netty-server, openapi, postgres, readme, security, security-annotations, security-jwt, shade, testcontainers, yaml]
