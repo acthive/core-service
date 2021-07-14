@@ -11,7 +11,7 @@ import lombok.Data;
 @Introspected
 public class LoginResponse {
 
-  private String username;
+  private String email;
   private String token;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", locale = "id_ID")
   private LocalDateTime tokenExpiresIn;

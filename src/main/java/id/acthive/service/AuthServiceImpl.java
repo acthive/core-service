@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
   @Override
   public LoginResponse login(LoginRequest request) {
 
-    var personDaoOptional = personRepository.findByEmail(request.getUsername());
+    var personDaoOptional = personRepository.findByEmail(request.getEmail());
     if (personDaoOptional.isPresent() && personDaoOptional.get().getPassword()
         .equals(request.getPassword())) {
       var personDao = personDaoOptional.get();
@@ -42,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
         personDao = personRepository.update(personDao);
       }
       return LoginResponse.builder()
-          .username(personDao.getEmail())
+          .email(personDao.getEmail())
           .token(personDao.getToken())
           .tokenExpiresIn(personDao.getTokenExpiresIn())
           .build();
